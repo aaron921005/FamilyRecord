@@ -1,0 +1,135 @@
+<!--mine.wxml-->
+<view class="header">
+  <!--登录人信息0  -->
+  <view class="weui-cell">
+    <view class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+      <image src="{{userInfo.avatarUrl}}" style="width: 50px; height: 50px; display: block;border-radius:30px" />
+      <!-- <view class="weui-badge" style="position: absolute;top: -.4em;right: -.4em;">8</view> -->
+    </view>
+    <view class="weui-cell__bd">
+      <view>{{userInfo.nickName}}</view>
+      <view style="font-size: 13px;color: #888888;">摘要信息</view>
+    </view>
+    <view class="weui-cell__ft weui-cell__ft_in-access" bindtap='mineSet'></view>
+  </view>
+  <!--选项卡  -->
+  <view class="tablist">
+    <view wx:for="{{tabs}}" wx:for-index="idx" wx:key="key" class="tab" bindtap="touchTab" style="{{item.extraStyle}}" id="{{idx}}">
+      <view class="content" bindtap='tab' id="{{idx}}" style="color:{{highLightIndex == idx ? '#54BFE2' : ''}};">
+        <image class="image" mode="aspectFit" src="{{highLightIndex == idx ? item.iconActive : item.icon}}"></image>
+        <view style="">{{item.title}}</view>
+      </view>
+    </view>
+  </view>
+</view>
+<view style=' background-color: #eceff4;height:10px;'></view>
+<!--选项卡区域  -->
+
+<view>
+  <!--一个全屏模态对话框-->
+  <view class="modal" style="{{modalShowStyle}}">
+    <view class="dialog">
+      <view class="modal-item" style="display:flex;justify-content:center;align-items:center;">
+        给您的宝宝建档吧~
+      </view>
+      <view class="modal-item" style="margin:0 auto;width:90%;">
+        <input type="text" bindinput="babynameInput" style="background-color:white;border-radius:2px;" value="{{babyname}}" placeholder="请输入宝宝姓名"></input>
+      </view>
+      <view class="modal-item" style="margin:0 auto;width:90%;">
+        <picker class='picker' mode="date" value="{{babybirthdate}}" start="" end="" bindchange="babybirthdateChange">
+          <view class="picker">
+            <input type="text" disabled="true" style="background-color:white;border-radius:2px;" value="{{babybirthdate}}" placeholder="请选择宝宝出生日期"></input>
+          </view>
+        </picker>
+      </view>
+      <view class="modal-item" style="margin:0 auto;width:90%;">
+        <picker class='picker' value="{{babysex}}" range="{{babysexarray}}" bindchange="babysexChange">
+          <view class="picker">
+            <input type="text" disabled="true" bindinput="babysexInput" style="background-color:white;border-radius:2px;" value="{{babysex}}" placeholder="请选择宝宝性别"></input>
+          </view>
+        </picker>
+      </view>
+      <view class="modal-item" style="margin:0 auto;width:90%;">
+        <input type="text" bindinput="babyheightInput" style="background-color:white;border-radius:2px;" value="{{babyheight}}" placeholder="请输入宝宝身高(cm)"></input>
+      </view>
+      <view class="modal-item" style="margin:0 auto;width:90%;">
+        <input type="text" bindinput="babyweightInput" style="background-color:white;border-radius:2px;" value="{{babyweight}}" placeholder="请输入宝宝体重(斤)"></input>
+      </view>
+      <view class="modal-item" style="margin:0 auto;width:90%;">
+        <input type="text" bindinput="babyremarksInput" style="background-color:white;border-radius:2px;" value="{{babyremarks}}" placeholder="请输入宝宝备注"></input>
+      </view>
+      <view class="modal-button" style="width:100%">
+        <view style="color:green;border-right:1px solid #E5E7ED;" bindtap="touchAddNew">确定</view>
+        <view bindtap="touchCancel">取消</view>
+      </view>
+    </view>
+  </view>
+
+  <!--宝宝列表  -->
+  <view wx:if="{{currentTab=='tab1'}}">
+    <!--添加  -->
+    <view class="weui-flex">
+      <view class="weui-flex__item">
+        <view class="placeholder" wx:if="{{babynum<3}}" bindtap="touchAdd">添加宝宝
+        </view>
+      </view>
+    </view>
+    <!--加载  -->
+    <view class="weui-loadmore" wx:if="{{systemuserbaby==null}}">
+      <view class="weui-loading"></view>
+      <view class="weui-loadmore__tips">正在加载</view>
+    </view>
+    <block wx:for="{{systemuserbaby}}" wx:key="key" wx:for-index="idx" wx:for-item="item">
+      <view class="weui-cell weui-cell_access" data-index='{{idx}}' bindtap="babynurse" data-id="{{item.id}}" data-name="{{item.name}}" data-sex="{{item.sex}}" data-userid="{{item.userid}}" data-user_babyid="{{item.id}}">
+        <view class="weui-cell__bd">
+          <view style="display: inline-block; vertical-align: middle">{{item.name}}</view>
+          <!-- <view class="weui-badge" style="margin-left: 5px;"></view> -->
+        </view>
+        <view class="weui-cell__ft weui-cell__ft_in-access">详细信息</view>
+      </view>
+    </block>
+  </view>
+
+</view>
+
+<!--生活列表  -->
+<view wx:if="{{currentTab=='tab2'}}">
+  <!--添加  -->
+  <view class="weui-flex">
+    <view class="weui-flex__item">
+      <view class="placeholder" bindtap="addLife">添加生活
+      </view>
+    </view>
+  </view>
+  <!--加载  -->
+  <view class="weui-loadmore" wx:if="{{systemUserlife==null}}">
+    <view class="weui-loading"></view>
+    <view class="weui-loadmore__tips">正在加载</view>
+  </view>
+  <view class="weui-panel weui-panel_access">
+    <view class="weui-panel__bd">
+      <navigator wx:for="{{systemUserlife}}" wx:key="key" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+        <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+          <image class="weui-media-box__thumb" src="{{item.files[0]}}" />
+        </view>
+        <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+          <view class="weui-media-box__title">{{item.createtime}}</view>
+          <view class="weui-media-box__desc">{{item.content}}</view>
+        </view>
+      </navigator>
+    </view>
+    <view class="weui-panel__ft">
+      <view class="weui-cell weui-cell_access weui-cell_link">
+        <view class="weui-cell__bd">查看更多</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!--喜欢列表  -->
+<view wx:if="{{currentTab=='tab3'}}">
+</view>
+<!--更多列表  -->
+<view wx:if="{{currentTab=='tab4'}}">
+</view>

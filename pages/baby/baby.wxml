@@ -1,0 +1,46 @@
+<!--index.wxml-->
+
+<view class="btn-area xuanfub" style='    box-shadow: 0px -4px 25px #8a8a8a;'>
+  <view class="section">
+    <!-- <view class="section__title">{{name}}大宝贝的喂奶日期、时间和饭量</view> -->
+    <view style='margin:30rpx;'>{{name}}距<label style='color:red;'>上次喂奶</label>：{{beforetime}}</view>
+    <picker mode="date" value="{{date}}" bindchange="bindDateChange" style='border-bottom:solid 1px #e1e1e1'>
+      <view class="picker">
+        {{date}}
+      </view>
+    </picker>
+    <picker mode="time" value="{{time}}" bindchange="bindTimeChange" style='border-bottom:solid 1px #e1e1e1'>
+      <view class="picker">
+        {{time}}
+      </view>
+    </picker>
+  </view>
+  <view class="section section_gap">
+    <view class="body-view">
+      <slider bindchange="slider4change" min="10" max="300" step="10" show-value value='{{number}}' />
+    </view>
+  </view>
+  <button class="weui-btn" style='border-radius:0px;' type="primary" bindtap="openConfirm_add" data-tip="{{name}}宝宝在{{time}}吃了{{number}}毫升">{{time}}吃了{{number}}毫升点击"记录一下"</button>
+</view>
+
+
+<view class="table">
+  <view class="tr bg-w xuanfut">
+    <view class="th " style='width: 60%;'>喂奶(时间、毫升)</view>
+    <view class="th " style='width: 40%;'>距上次相差</view>
+  </view>
+  <view class="weui-loadmore" wx:if="{{nurseList==null}}">
+    <view class="weui-loading"></view>
+    <view class="weui-loadmore__tips">正在加载</view>
+  </view>
+  <block wx:for="{{nurseList}}" wx:key="{{code}}">
+    <view class="tr bg-g" wx:if="{{index % 2 == 0}}" style="{{index==0?'color:red;':''}}">
+      <view class="td" style='width: 60%;text-align:left;margin-left:20px;'>{{item.time}}、{{item.number}}</view>
+      <view class="td" style='width: 40%;'>{{item.shijiacha}}</view>
+    </view>
+    <view class="tr" wx:else>
+      <view class="td" style='width: 60%;text-align:left;margin-left:20px;'>{{item.time}}、{{item.number}}</view>
+      <view class="td" style='width: 40%;'>{{item.shijiacha}}</view>
+    </view>
+  </block>
+</view>

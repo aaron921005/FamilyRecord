@@ -1,0 +1,39 @@
+<!--pages/life/add/index.wxml-->
+<form bindsubmit="AddLifeFun">
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell">
+      <view class="weui-cell__bd">
+        <textarea class="weui-textarea" bindblur='contentBlur' placeholder="请输入文本" style="height: 3.3em" value='{{content}}' maxlength="200" />
+        <view class="weui-textarea-counter">最多200字</view>
+      </view>
+    </view>
+  </view>
+  <view class="picture_list">
+    <view wx:for="{{upload_picture_list}}" class="picture_item">
+      <image wx:if="{{item.upload_percent < 100}}" src="{{item.path}}" mode="aspectFill"></image>
+      <image wx:if="{{item.upload_percent == 100}}" src="{{item.path_server}}" mode="aspectFill"></image>
+      <view class="upload_progress" wx:if="{{item.upload_percent < 100}}">
+        {{item.upload_percent}}%
+      </view>
+    </view>
+    <view class="picture_item">
+      <image src="/images/icons/addImg.png" bindtap="uploadpic" mode="aspectFill"></image>
+    </view>
+  </view>
+  <checkbox-group bindchange="bindAgreeChange">
+    <label class="weui-agree" for="weuiAgree">
+      <view class="weui-agree__text">
+        <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="{{isAgree}}" />
+        <view class="weui-agree__checkbox-icon" bindtap='isAgreeFun'>
+          <icon class="weui-agree__checkbox-icon-check" type="success_no_circle" size="9" wx:if="{{isAgree}}"></icon>
+        </view>
+        阅读并同意
+        <navigator url="" class="weui-agree__link">《相关条款》</navigator>
+      </view>
+    </label>
+  </checkbox-group>
+
+  <view class="weui-btn-area">
+    <button formType="submit" class="weui-btn" type="primary" bindtap="">确定</button>
+  </view>
+</form>

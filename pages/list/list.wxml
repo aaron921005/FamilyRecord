@@ -1,0 +1,17 @@
+<!--list.wxml-->
+
+<scroll-view scroll-y="true">
+  <view wx:for="{{Babies}}" wx:for-index="idx" class="item-container" bindtap="showDetail" data-id="{{item.id}}"  data-name="{{item.name}}" data-sex="{{item.sex}}" data-userid="{{item.userid}}" data-user_babyid="{{item.id}}">
+    <image mode="aspectFit" src="{{item.sex=='男孩'?'../../images/baby/nanhai.png':'../../images/baby/nvhai.png'}}" class="cover"></image>
+    <view class="desc" >
+      <view class="left">
+        <view style="font-size:32rpx;margin:10rpx 0;">{{item.name}}</view>
+        <view style="font-size:24rpx;color:darkgray">{{item.remarks}}</view>
+      </view>
+      <view class="right">
+        <image mode="aspectFit" src="{{item.sex=='男孩'?'../../images/baby/nanhai.png':'../../images/baby/nvhai.png'}}"></image>
+        <text style="font-size:24rpx;margin-top:10rpx;color:darkgray">{{item.birthdate}}</text>
+      </view>
+    </view>
+  </view>
+</scroll-view>
