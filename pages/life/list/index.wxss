@@ -1,1 +1,2 @@
 /* pages/life/list/index.wxss */
+/* @import "../../../style/weui.wxss"; */

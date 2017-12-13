@@ -1,0 +1,20 @@
+<!--pages/life/detail/index.wxml-->
+
+<view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell">
+      <view class="weui-cell__bd">
+        {{content}}
+      </view>
+    </view>
+  </view>
+  <view class="video-box" wx:if="{{video}}">
+    <video class="video" style='width:100%;' src="{{video}}"></video>
+    <!-- <view style="text-align:center;color:green;font-size:14px;padding-top:7px;">当前视频大小为{{videosize}}M</view> -->
+  </view>
+  <view class="picture_list">
+    <view wx:for="{{files}}" class="picture_item">
+      <image src="{{item}}" bindtap="imgYulan" mode="aspectFill" data-list="{{files}}" data-src="{{item}}"></image>
+    </view>
+  </view>
+</view>

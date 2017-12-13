@@ -1,20 +1,22 @@
 {
   "pages": [
+    "pages/mine/mine",
     "pages/life/list/index",
     "pages/selectColor/selectColor",
-    "pages/mine/mine",
     "pages/list/list",
     "pages/baby/baby",
     "pages/new/new",
     "pages/entry/entry",
-    "pages/life/add/index"
+    "pages/life/add/index",
+    "pages/life/detail/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#39b5de",
     "navigationBarTitleText": "家庭随手记",
     "navigationBarTextStyle": "white",
-    "backgroundColor": "#eceff4"
+    "backgroundColor": "#eceff4",
+    "enablePullDownRefresh": true
   },
   "tabBar": {
     "color": "#858585",

@@ -1,19 +1,38 @@
 // app.js
 
 const config = require('config');
-const diaries = require('demo/diaries');
 const url = require('utils/url.js');
 
 App({
 
   onLaunch: function () {
     var that = this;
+
+  },
+  //获取用户信息
+  get_user: function (obj) {
+    var that = this;
+    if (that.globalData._user.length > 0) {
+      typeof obj == 'function' && obj(that.globalData._user);
+
+    }else{
+      that.getOpenid(obj);
+    }
+  },
+
+  //获取用户Openid
+  getOpenid: function (obj) {
+    var that = this;
+    if (that.globalData._user.wx != null) {
+      that.searchUserExist(obj);
+      return false;
+    }
     wx.login({
       success: function (res) {
         if (res.code) {
           wx.getUserInfo({
             success: (res_user) => {
-              that.globalData.userInfo = res.userInfo;
+              that.globalData._user.wx = res_user.userInfo;
               //获取openid
               wx.request({
                 url: that.globalData.url + 'index.php?c=wx&a=wxUserDetail',
@@ -26,8 +45,8 @@ App({
                   'content-type': 'application/x-www-form-urlencoded' // 默认值
                 },
                 success: function (res) {
-                  that.globalData.useropenid = res.data.openid;
-                  wx.setStorageSync('openId', res.data.openId);
+                  that.globalData._user.wx.openid = res.data.openid;
+                  that.searchUserExist(obj);
                 }
               })
             }
@@ -39,103 +58,67 @@ App({
     })
   },
 
-  // 获取用户信息
-  getUserInfo: function (cb) {
+  // 查询用户是否存在
+  searchUserExist: function (obj) {
     var that = this;
-
-    if (this.globalData.userInfo) {
-      typeof cb == 'function' && cb(this.globalData.userInfo)
-    } else {
-      wx.getUserInfo({
-        success: (res) => {
-          that.globalData.userInfo = res.userInfo;
-          typeof cb == 'function' && cb(that.globalData.userInfo);
+    wx.request({
+      url: that.globalData.url + 'index.php?c=user&a=apiexist',
+      method: 'GET',
+      data: {
+        openid: that.globalData._user.wx.openid
+      },
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        if (!res.data) {
+          that.createUser();
+        } else {
+          that.globalData._user.user = res.data;
+          typeof obj == 'function' && obj(that.globalData._user);
+          // wx.showModal({
+          //   title: 'aaron提示',
+          //   content: res.data.remarks,
+          //   showCancel: false
+          // });
         }
-      })
-    }
+      }
+    })
   },
 
-  // 获取本地全部宝宝列表
-  getBabyList(cb) {
+  // 给用户建档
+  createUser: function (obj) {
     var that = this;
-
-    if (this.globalData.systemuserbaby) {
-      typeof cb == 'function' && cb(this.globalData.systemuserbaby);
-    } else {
-      // let list = [];
-
-      // this.getLocalDiaries(storage => {
-      //   // 本地缓存数据
-      //   for (var k in storage) {
-      //     list.push(storage[k]);
-      //   }
-      // });
-
-      // // 本地假数据
-      // list.push(...diaries.diaries);
-      // that.globalData.BabyList = list;
-      // typeof cb == 'function' && cb(that.globalData.BabyList)
-    }
-  },
-
-  // 获取本地宝宝缓存
-  getLocalDiaries(cb) {
-    var that = this;
-
-    if (this.globalData.localDiaries) {
-      typeof cb == 'function' && cb(this.globalData.localDiaries);
-    } else {
-      wx.getStorage({
-        key: config.storage.BabyListKey,
-        success: (res) => {
-          that.globalData.localDiaries = res.data;
-          typeof cb == 'function' && cb(that.globalData.localDiaries);
-        },
-        fail: (error) => {
-          that.globalData.localDiaries = {};
-          typeof cb == 'function' && cb(that.globalData.localDiaries);
+    wx.request({
+      url: that.globalData.url + 'index.php?c=user&a=apiadd',
+      method: 'POST',
+      data: {
+        username: that.globalData._user.wx.nickName,
+        password: '123456',
+        admin: 'user',
+        wxname: that.globalData._user.wx.nickName,
+        openid: that.globalData.userOpenid,
+        sex: (that.globalData._user.wx.gender == 1 ? '男' : '女')
+      },
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        if (res.data) {
+          that.searchUserExist(obj);
+        } else {
+          console.log('开户失败！' + res.errMsg)
         }
-      });
-    }
+
+      }
+    })
   },
 
-  // 获取当前设备信息
-  getDeviceInfo: function (callback) {
-    var that = this;
-
-    if (this.globalData.deviceInfo) {
-      typeof callback == "function" && callback(this.globalData.deviceInfo)
-    } else {
-      wx.getSystemInfo({
-        success: function (res) {
-          that.globalData.deviceInfo = res;
-          typeof callback == "function" && callback(that.globalData.deviceInfo)
-        }
-      })
-    }
-  },
 
   globalData: {
-    // 设备信息，主要用于获取屏幕尺寸而做适配
-    deviceInfo: null,
-
-    // 本地宝宝缓存列表 + 假数据
-    // TODO 真实数据同步至服务端，本地只做部分缓存
-    BabyList: null,
-
-    // 本地宝宝缓存
-    localDiaries: null,
 
     // 用户信息
-    userInfo: null,
-
-    // 用户openid
-    useropenid: null,
-
-    // 系统用户信息
-    systemuser: null,
-
-    systemuserbaby: new Array(),
+    _user: [],
 
     // 接口路径
     url: url,

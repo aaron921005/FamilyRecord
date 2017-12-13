@@ -35,6 +35,10 @@ Page({
 
   // data
   data: {
+    _user: new Object(),
+
+    wx:null,
+
     // 展示的tab标签
     tabs: tabs,
 
@@ -47,24 +51,26 @@ Page({
     // 模态对话框样式 
     modalShowStyle: "",
 
-    // 待新建的宝宝姓名
-    babyname: "",
-    // 待新建的宝宝出生日期
-    babybirthdate: "",
-    // 待新建的宝宝性别
-    babysex: "",
-    babysexarray: ['男孩', '女孩'],
-    // 待新建的宝宝身高
-    babyheight: "",
-    // 待新建的宝宝体重
-    babyweight: "",
-    // 待新建的宝宝备注
-    babyremarks: "",
+    curbaby: {
+      // 待新建的宝宝姓名
+      babyname: "",
+      // 待新建的宝宝出生日期
+      babybirthdate: "",
+      // 待新建的宝宝性别
+      babysex: "",
+      babysexarray: ['男孩', '女孩'],
+      // 待新建的宝宝身高
+      babyheight: "",
+      // 待新建的宝宝体重
+      babyweight: "",
+      // 待新建的宝宝备注
+      babyremarks: "",
 
-    // TODO 用户信息
-    userInfo: "",
+      babynum: 0,
 
-    babynum: 0,
+    },
+
+
 
     systemuser: null,
 
@@ -73,23 +79,24 @@ Page({
     systemUserlife: null,
   },
   onLoad: function (options) {
-    this.tab1();
+    var that = this;
+    app.get_user(result => {
+      that.setData({ '_user.wx': result.wx, '_user.user': result.user ,wx:result.wx,});
+      that.tab1();
+      that.tab2();
+      that.tab3();
+      that.tab4();
+    })
   },
-  // 隐藏模态框
-  hideModal() {
-    this.setData({ modalShowStyle: "" });
-  },
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+    wx.showNavigationBarLoading() //在标题栏中显示加载
+    wx.hideNavigationBarLoading() //完成停止加载
+    wx.stopPullDownRefresh() //停止下拉刷新
 
-  // 清除宝宝档案标题
-  clearTitle() {
-    this.setData({ babyname: "" });
   },
-
-  onShow: function () {
-    this.hideModal();
-    this.clearTitle();
-  },
-
   // 点击tab项事件
   touchTab: function (event) {
     var tabIndex = parseInt(event.currentTarget.id);
@@ -116,32 +123,33 @@ Page({
       modalShowStyle: "opacity:1;pointer-events:auto;"
     })
   },
-
-  // 新建宝宝档案
-  touchAddNew: function (event) {
-    wx.showLoading({
-      title: '提交中...'
-    })
-    this.searchBabyExist();
+  // 隐藏模态框
+  hideModal() {
+    this.setData({ modalShowStyle: "" });
   },
 
   // 取消输入
   touchCancel: function (event) {
     this.hideModal();
-    this.clearTitle();
+    
+  },
+  // 新建宝宝档案
+  addBaby: function (event) {
+    this.searchBabyExist();
+    
   },
 
   // 宝宝姓名输入事件
   babynameInput: function (event) {
     this.setData({
-      babyname: event.detail.value,
+      'curbaby.babyname': event.detail.value,
     })
   },
 
   //宝宝出生日期改变事件
   babybirthdateChange: function (event) {
     this.setData({
-      babybirthdate: event.detail.value
+      'curbaby.babybirthdate': event.detail.value
     })
   },
 
@@ -149,7 +157,7 @@ Page({
   babysexChange: function (event) {
     var that = this;
     this.setData({
-      babysex: that.data.babysexarray[event.detail.value]
+      'curbaby.babysex': that.data.curbaby.babysexarray[event.detail.value]
     })
   },
 
@@ -173,62 +181,7 @@ Page({
       babyremarks: event.detail.value,
     })
   },
-  // 查询用户是否存在
-  searchUserExist: function (event) {
-    var that = this;
-    wx.request({
-      url: app.globalData.url + 'index.php?c=user&a=apiexist',
-      method: 'GET',
-      data: {
-        openid: app.globalData.useropenid
-      },
-      header: {
-        'content-type': 'application/x-www-form-urlencoded'
-      },
-      success: function (res) {
-        if (!res.data) {
-          that.createUser();
-        } else {
-          app.globalData.systemuser = res.data;
-          that.setData({ systemuser: res.data });
-          that.searchUserAllBaby();
-        }
-      }
-    })
-  },
-  // 给用户建档
-  createUser: function (event) {
-    var that = this;
-    wx.request({
-      url: app.globalData.url + 'index.php?c=user&a=apiadd',
-      method: 'POST',
-      data: {
-        username: app.globalData.userInfo.nickName,
-        password: '123456',
-        admin: 'user',
-        wxname: app.globalData.userInfo.nickName,
-        openid: app.globalData.useropenid,
-        sex: (app.globalData.userInfo.gender == 1 ? '男' : '女')
-      },
-      header: {
-        'content-type': 'application/x-www-form-urlencoded'
-      },
-      success: function (res) {
-        if (res.data) {
-          wx.showToast({
-            title: '建档成功',
-            icon: 'succes',
-            duration: 2000,
-            mask: true
-          });
-          that.searchUserExist();
-        } else {
-          wx.hideToast();
-        }
 
-      }
-    })
-  },
   // 查询宝宝是否存在
   searchBabyExist: function (event) {
     var that = this;
@@ -236,8 +189,8 @@ Page({
       url: app.globalData.url + 'index.php?c=user_baby&a=apiexist',
       method: 'GET',
       data: {
-        userid: app.globalData.systemuser.id,
-        name: that.data.babyname
+        userid: that.data._user.user.id,
+        name: that.data.curbaby.babyname
       },
       header: {
         'content-type': 'application/x-www-form-urlencoded'
@@ -246,10 +199,11 @@ Page({
         if (!res.data) {
           that.createBaby();
         } else {
-          app.globalData.systemuserbaby[that.data.babynum] = res.data;//把新添加的宝宝放入缓存
-          that.setData({ systemuserbaby: app.globalData.systemuserbaby });
-          that.hideModal();
-          wx.hideToast();
+          wx.showModal({
+            title: 'aaron提示',
+            content: '已经存在宝宝：' + that.data.curbaby.babyname,
+            showCancel: false
+          });
         }
       }
     })
@@ -261,79 +215,45 @@ Page({
       url: app.globalData.url + 'index.php?c=user_baby&a=apiadd',
       method: 'POST',
       data: {
-        userid: app.globalData.systemuser.id,
-        name: that.data.babyname,
-        birthdate: that.data.babybirthdate,
-        sex: that.data.babysex,
-        height: that.data.babyheight,
-        weight: that.data.babyweight,
-        remarks: that.data.babyremarks
+        userid: that.data._user.user.id,
+        name: that.data.curbaby.babyname,
+        birthdate: that.data.curbaby.babybirthdate,
+        sex: that.data.curbaby.babysex,
+        height: that.data.curbaby.babyheight,
+        weight: that.data.curbaby.babyweight,
+        remarks: that.data.curbaby.babyremarks
       },
       header: {
         'content-type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
         if (res.data) {
-          wx.showToast({
-            title: '建档成功',
-            icon: 'succes',
-            duration: 2000,
-            mask: true
+          wx.showModal({
+            title: 'aaron提示',
+            content: '宝宝开户成功',
+            showCancel: false
           });
-          that.searchBabyExist();
+          that.hideModal();
+          that.tab1();
         } else {
-          wx.hideToast();
+          console.log('宝宝开户失败！' + res.errMsg)
         }
 
       }
     })
   },
-  // 查询用户所有的宝宝
-  searchUserAllBaby: function (event) {
-    var that = this;
-    wx.request({
-      url: app.globalData.url + 'index.php?c=user_baby&a=apibyuserid',
-      method: 'GET',
-      data: {
-        userid: app.globalData.systemuser.id,
-        name: that.data.babyname
-      },
-      header: {
-        'content-type': 'application/x-www-form-urlencoded'
-      },
-      success: function (res) {
-        if (res.data) {
-          that.setData({
-            babynum: res.data.length
-          });
-          app.globalData.systemuserbaby = res.data;//把新添加的宝宝放入缓存
-          that.setData({ systemuserbaby: res.data });
-          wx.hideToast();
-        }
-      }
-    })
-  },
-  //宝宝喂奶情况
+
+  //宝宝喂奶详情
   babynurse: function (event) {
     wx.navigateTo({
       url: '../baby/baby?id=' + event.currentTarget.dataset.id + '&name=' + event.currentTarget.dataset.name + '&userid=' + event.currentTarget.dataset.userid + '&sex=' + event.currentTarget.dataset.sex + '&user_babyid=' + event.currentTarget.dataset.user_babyid,
     });
   },
 
-  //初始化
-  tab1: function (event) {
-    var that = this;
-    app.getUserInfo(info => {
-      that.setData({
-        'userInfo': info
-      });
-      that.searchUserExist();
-    });
-  },
 
   // 我的设置 
   mineSet: function (event) {
-    //app.globalData.systemuser.id
+    
     wx.showModal({
       content: '设置我的信息',
       showCancel: false,
@@ -344,54 +264,60 @@ Page({
       }
     });
   },
-  openAlert: function () {
-    wx.showModal({
-      content: '弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内',
-      showCancel: false,
+
+
+  // 宝宝
+  tab1: function (event) {
+
+    var that = this;
+    wx.request({
+      url: app.globalData.url + 'index.php?c=user_baby&a=apibyuserid',
+      method: 'GET',
+      data: {
+        userid: that.data._user.user.id
+      },
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
       success: function (res) {
-        if (res.confirm) {
-          console.log('用户点击确定')
+        if (res.data) {
+          that.setData({ '_user.baby': res.data, 'curbaby.babynum': res.data.length, });
         }
       }
-    });
+    })
   },
 
-  //添加生活
-  addLife: function (event) {
-    var that = this;
-    wx.navigateTo({
-      url: '../life/add/index?&userid=' + that.data.systemuser.id,
-    });
-  },
-  // 查询用户所有的生活
+  // 生活
   tab2: function (event) {
     var that = this;
     wx.request({
       url: app.globalData.url + 'index.php?c=userlife&a=apibyuserid',
       method: 'GET',
       data: {
-        userid: app.globalData.systemuser.id
+        userid: that.data._user.user.id
       },
       header: {
         'content-type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
         if (res.data.Success) {
-          for (var i in res.data.data){
+          for (var i in res.data.data) {
             res.data.data[i].files = res.data.data[i].files.split(';');
           }
           that.setData({
-            systemUserlife: res.data.data
+            '_user.life': res.data.data
           });
         }
       }
     })
   },
 
-  tab3:function(e){
+  //喜欢
+  tab3: function (e) {
 
   },
 
+  //更多
   tab4: function (e) {
 
   },

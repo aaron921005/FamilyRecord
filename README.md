@@ -10,11 +10,6 @@
 ## 预览 ##
 
 * 概览
-
-<p align="center">
-    <img src="./files/preview.gif" alt="截频演示" width="100%">
-</p>
-
 ## 功能特点 ##
 
 * 功能完备，实用导向
@@ -28,16 +23,9 @@
 
 ## 使用步骤
 
-1. 克隆代码:
+1.  打开`微信Web开放者工具`（注意：须`v0.10.101100`及以上版本）
 
-```bash
-$ cd path/to/your/workspace
-$ git clone https://github.com/harveyqing/BearDiary.git
-```
-
-2. 打开`微信Web开放者工具`（注意：须`v0.10.101100`及以上版本）
-
-3. 添加项目
+2. 添加项目
 
     * AppID：选`无AppID`
     * 项目名称：任意填写
