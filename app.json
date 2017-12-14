@@ -26,8 +26,8 @@
     "list": [
       {
         "pagePath": "pages/life/list/index",
-        "iconPath": "images/icons/mark.png",
-        "selectedIconPath": "images/icons/markHL.png",
+        "iconPath": "images/icons/生活.png",
+        "selectedIconPath": "images/icons/生活HL.png",
         "text": "生活"
       },
       {

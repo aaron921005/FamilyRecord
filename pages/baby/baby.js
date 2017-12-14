@@ -74,9 +74,6 @@ Page({
     })
   },
   bindSave: function (e) {
-    wx.showLoading({
-      title: '提交中...'
-    })
     var that = this;
     var myDate = new Date();
     wx.request({
@@ -95,18 +92,23 @@ Page({
       },
       success: function (res) {
         if (res.data) {
+          // wx.showModal({
+          //   title: 'aaron提示',
+          //   content: '添加成功',
+          //   showCancel: false,
+          //   success: function (res) {
+          //     if (res.confirm) {
+          //       console.log('用户点击确定')
+          //     }
+          //   }
+          // });
           that.getNurseList();
-        } else {
-          wx.hideToast();
         }
 
       }
     })
   },
   getNurseList: function (e) {
-    wx.showLoading({
-      title: '加载中...'
-    })
     var that = this;
     wx.request({
       url: app.globalData.url + 'index.php?c=user_babynurse&a=apibyuserid',
@@ -142,7 +144,6 @@ Page({
         } else {
 
         }
-        wx.hideToast();
 
       }
     })
@@ -167,7 +168,7 @@ Page({
   openConfirm_add: function (res) {
     var that = this;
     wx.showModal({
-      title: '确认提示',
+      title: 'aaron提示',
       content: '亲爱的宝妈\r\n' + res.currentTarget.dataset.tip + '\r\n您确定添加喂奶记录吗？',
       confirmText: "确定哦",
       cancelText: "我点错啦",
@@ -182,7 +183,8 @@ Page({
   },
   openAlert: function () {
     wx.showModal({
-      content: '弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内',
+      title: 'aaron提示',
+      content: '添加成功',
       showCancel: false,
       success: function (res) {
         if (res.confirm) {
