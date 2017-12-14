@@ -7,22 +7,19 @@ Page({
    * 页面的初始数据
    */
   data: {
-    id: null,
-    content: '',
-    files: '',
-    video: '',
+    detail:new Object(),
     
   },
   onLoad: function (params) {
-    this.setData({ id: params["id"] });
-    this.detail(this.data.id);
+    this.setData({ 'detail.id': params["id"] });
+    this.detail(this.data.detail.id);
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
     wx.showNavigationBarLoading() //在标题栏中显示加载
-    this.detail(this.data.id);
+    this.detail(this.data.detail.id);
 
   },
 
@@ -41,7 +38,8 @@ Page({
       },
       success: function (res) {
         if (res.data.Success) {
-          that.setData({ content: res.data.data.content, files: res.data.data.files.split(';'), video: res.data.data.video, });
+          res.data.data.files = res.data.data.files.split(';');
+          that.setData({ detail: res.data.data, });
         } else {
           //查询失败
           wx.showModal({

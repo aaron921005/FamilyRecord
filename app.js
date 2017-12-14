@@ -97,6 +97,7 @@ App({
         password: '123456',
         admin: 'user',
         wxname: that.globalData._user.wx.nickName,
+        wxhead: that.globalData._user.wx.avatarUrl,
         openid: that.globalData.userOpenid,
         sex: (that.globalData._user.wx.gender == 1 ? '男' : '女')
       },

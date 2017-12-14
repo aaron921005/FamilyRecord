@@ -8,7 +8,13 @@ Page({
    */
   data: {
     _user: null,
-    lifeList: null
+    lifeList: null,
+    init: false,//初始化为false，随后改为true
+    more: true,
+    initPage: 1,
+    initPageSize: 10,
+    page: 0,
+    pageSize: 0,
 
   },
 
@@ -18,8 +24,8 @@ Page({
   onLoad: function (options) {
     var that = this;
     app.get_user(result => {
-      that.setData({_user:result});
-      that.getAlllife();
+      that.setData({ _user: result });
+      that.getInitlife();
     })
   },
 
@@ -34,7 +40,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    var that = this;
+    // if (that.data.init)
+    //   app.get_user(result => {
+    //     that.setData({ _user: result });
+    //     that.getInitlife();
+    //   })
   },
 
   /**
@@ -57,7 +68,8 @@ Page({
   onPullDownRefresh: function () {
     wx.showNavigationBarLoading() //在标题栏中显示加载
     var that = this;
-    that.getAlllife();
+    that.setData({ page: that.data.initPage, pageSize: that.data.initPageSize });
+    that.getInitlife();
 
   },
 
@@ -65,6 +77,11 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
+    var that = this;
+    if (that.data.more) {
+      that.setData({ page: that.data.page + 1 });
+      that.getMorelife();
+    } 
 
   },
 
@@ -75,13 +92,15 @@ Page({
 
   },
 
-  // 加载所以生活
-  getAlllife: function () {
+  // 初始化生活
+  getInitlife: function () {
     var that = this;
     wx.request({
       url: app.globalData.url + 'index.php?c=userlife&a=apiall',
       method: 'GET',
       data: {
+        'page': that.data.initPage,
+        'pageSize': that.data.initPageSize
       },
       header: {
         'content-type': 'application/x-www-form-urlencoded'
@@ -99,6 +118,33 @@ Page({
         wx.stopPullDownRefresh() //停止下拉刷新
       }
     })
+    that.setData({ page: that.data.initPage, pageSize: that.data.initPageSize, init: true, more: true });
   },
 
+  // 加载更多生活
+  getMorelife: function () {
+    var that = this;
+    wx.request({
+      url: app.globalData.url + 'index.php?c=userlife&a=apiall',
+      method: 'GET',
+      data: {
+        'page': that.data.page,
+        'pageSize': that.data.pageSize
+      },
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        if (res.data.Success) {
+          for (var i in res.data.data) {
+            res.data.data[i].files = res.data.data[i].files.split(';');
+          }
+          that.setData({
+            lifeList: that.data.lifeList.concat(res.data.data),
+          });
+        } else
+          that.setData({ more: false });
+      }
+    })
+  },
 })

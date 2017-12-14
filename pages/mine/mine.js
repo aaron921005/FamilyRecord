@@ -69,6 +69,8 @@ Page({
       babynum: 0,
 
     },
+    tab2page: 1,
+    tab2pageSize: 5,
 
 
 
@@ -294,7 +296,9 @@ Page({
       url: app.globalData.url + 'index.php?c=userlife&a=apibyuserid',
       method: 'GET',
       data: {
-        userid: that.data._user.user.id
+        'userid': that.data._user.user.id,
+        'page': that.data.tab2page,
+        'pageSize': that.data.tab2pageSize
       },
       header: {
         'content-type': 'application/x-www-form-urlencoded'

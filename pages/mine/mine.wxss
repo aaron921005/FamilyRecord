@@ -149,3 +149,10 @@
   height: 60rpx;
   border-radius: 30rpx;
 }
+.vi {
+  background-color: #F76260;
+  color: #fff;
+  font-size: 11px;
+  padding: 1px;
+  margin-left: 1px;
+}

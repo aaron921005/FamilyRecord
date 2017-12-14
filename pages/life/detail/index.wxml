@@ -1,20 +1,35 @@
 <!--pages/life/detail/index.wxml-->
-
-<view>
-  <view class="weui-cells weui-cells_after-title">
-    <view class="weui-cell">
-      <view class="weui-cell__bd">
-        {{content}}
+<view class="page">
+  <view class="page__hd">
+    <navigator class="weui-media-box weui-media-box_appmsg" url="" hover-class="weui-cell_active">
+      <view class="weui-media-box__hd weui-media-box__hd_in-appmsg" style=''>
+        <image class="weui-media-box__thumb" src="{{detail.user.wxhead}}" style='border-radius:30px;' />
       </view>
-    </view>
+      <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+        <view class="weui-media-box__title" style='font-size:13px;'>{{detail.user.username}}</view>
+        <view class="weui-media-box__desc"> 发表于：{{detail.createtime}} </view>
+      </view>
+    </navigator>
   </view>
-  <view class="video-box" wx:if="{{video}}">
-    <video class="video" style='width:100%;' src="{{video}}"></video>
-    <!-- <view style="text-align:center;color:green;font-size:14px;padding-top:7px;">当前视频大小为{{videosize}}M</view> -->
-  </view>
-  <view class="picture_list">
-    <view wx:for="{{files}}" class="picture_item">
-      <image src="{{item}}" bindtap="imgYulan" mode="aspectFill" data-list="{{files}}" data-src="{{item}}"></image>
+  <view class="page__bd">
+    <view class="weui-article">
+      <view class="weui-article__section">
+        <view class="weui-article__section">
+          <view class="weui-article__p">
+            {{detail.content}}
+          </view>
+        </view>
+        <view class="weui-article__section ">
+          <view class="weui-article__p" wx:if="{{detail.video}}">
+            <video class="video" style='width:100%;' src="{{detail.video}}"></video>
+          </view>
+          <view class='picture_list'>
+            <view wx:for="{{detail.files}}" class="picture_item ">
+              <image src="{{item}}" bindtap="imgYulan" mode="aspectFit" data-list="{{detail.files}}" data-src="{{item}}"></image>
+            </view>
+          </view>
+        </view>
+      </view>
     </view>
   </view>
 </view>

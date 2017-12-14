@@ -1,2 +1,37 @@
 /* pages/life/list/index.wxss */
+
 /* @import "../../../style/weui.wxss"; */
+
+/*悬浮  */
+
+.xuanfub {
+  left: 0;
+  position: fixed;
+  bottom: 5%;
+  width: 20%;
+  z-index: 100;
+  /* background: #e6e6e6; */
+  margin-left: 80%;
+}
+
+.xuanfut {
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  background: #e6e6e6;
+}
+
+.navigator-hover {
+  background-color: #fff;
+  opacity: 0.7;
+}
+
+.vi {
+  background-color: #F76260;
+  color: #fff;
+  font-size: 11px;
+  padding: 1px;
+  margin-left: 1px;
+}

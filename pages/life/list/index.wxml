@@ -1,5 +1,14 @@
 <!--pages/life/list/index.wxml-->
 
+<!--添加  -->
+<navigator class="weui-flex xuanfub " url="../add/index" wx:if="{{lifeList!=null}}">
+  <view class="weui-flex__item" bindtap="addLife">
+    <view class="weui-media-box__hd weui-media-box__hd_in-appmsg" style='float:right;width:30px;height:30px;'>
+      <image class="weui-media-box__thumb" src='/images/init/记录生活.png'></image>
+    </view>
+  </view>
+</navigator>
+
 <!--生活列表  -->
 <view>
   <!--加载  -->
@@ -7,25 +16,27 @@
     <view class="weui-loading"></view>
     <view class="weui-loadmore__tips">正在加载</view>
   </view>
-  <!--添加  -->
-  <navigator class="weui-flex" url="../add/index" wx:if="{{lifeList!=null}}">
-    <view class="weui-flex__item">
-      <view class="placeholder" bindtap="addLife">添加生活
-      </view>
-    </view>
-  </navigator>
 
   <view class="weui-panel weui-panel_access" wx:if="{{lifeList!=null}}">
     <view class="weui-panel__bd">
       <navigator wx:for="{{lifeList}}" wx:key="key" class="weui-media-box weui-media-box_appmsg" url="../detail/index?id={{item.id}}" hover-class="weui-cell_active">
-        <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-          <image class="weui-media-box__thumb" wx:if="{{item.files[0]!=''}}" src="{{item.files[0]}}" />
-          <image class="weui-media-box__thumb" wx:if="{{item.files[0]==''}}" src="/images/init/开心.png" />
+        <view class="weui-media-box__hd weui-media-box__hd_in-appmsg" style=''>
+          <image class="weui-media-box__thumb" src="{{item.user.wxhead}}" style='border-radius:30px;' />
+          <!-- <image class="weui-media-box__thumb" wx:if="{{item.files[0]!=''}}" src="{{item.files[0]}}" />
+          <image class="weui-media-box__thumb" wx:if="{{item.files[0]==''}}" src="/images/init/开心.png" /> -->
         </view>
         <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-          <view class="weui-media-box__title" style='font-size:13px;'>{{item.content}}</view>
-          <view class="weui-media-box__title" style='font-size:13px;'>{{item.content}}</view>
-          <view class="weui-media-box__desc">{{item.createtime}}</view>
+          <view class="weui-media-box__title" style='font-size:13px;'>{{item.user.username}}</view>
+          <view class="weui-media-box__title" style='font-size:12px;'>{{item.content}}</view>
+          <view class="weui-media-box__desc">
+            {{item.createtime}}
+            <label class='vi' wx:if="{{item.video}}">
+              <label>视频</label>
+            </label>
+            <label class='vi' wx:if="{{item.files[0]!=''}}">
+              <label>图片</label>
+            </label>
+          </view>
         </view>
         <view class="weui-cell__ft weui-cell__ft_in-access"></view>
       </navigator>
