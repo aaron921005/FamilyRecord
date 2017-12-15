@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/mine/set/index",
     "pages/mine/home/index",
     "pages/life/list/index",
     "pages/selectColor/selectColor",
@@ -8,8 +9,7 @@
     "pages/new/new",
     "pages/entry/entry",
     "pages/life/add/index",
-    "pages/life/detail/index",
-    "pages/mine/set/index"
+    "pages/life/detail/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

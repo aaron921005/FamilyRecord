@@ -1,2 +1,67 @@
 <!--pages/mine/set/index.wxml-->
-<text>pages/mine/set/index.wxml</text>
+<form bindsubmit="AddLifeFun" class="page" >
+  <view class="page__bd">
+    <view class="weui-cells__title">个人设置</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">昵称</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入昵称" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input weui-cell_vcode">
+        <view class="weui-cell__hd">
+          <view class="weui-label">手机号</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入手机号" />
+        </view>
+        <!-- <view class="weui-cell__ft">
+          <view class="weui-vcode-btn">获取验证码</view>
+        </view> -->
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">生日</view>
+        </view>
+        <view class="weui-cell__bd">
+          <picker mode="date" value="{{date}}"  start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
+            <view class="weui-input" >{{date}}</view>
+          </picker>
+        </view>
+      </view>
+    </view>
+    <!-- <view class="weui-cells__tips">底部说明文字底部说明文字</view> -->
+
+    <view class="weui-cells__title">签名</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <textarea class="weui-textarea" placeholder="请输入文本" style="height: 3.3em" />
+          <view class="weui-textarea-counter">最多200字</view>
+        </view>
+      </view>
+    </view>
+
+
+    <checkbox-group bindchange="bindAgreeChange">
+    <label class="weui-agree" for="weuiAgree">
+      <view class="weui-agree__text" bindtap='isAgreeFun'>
+        <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="{{editObj.isAgree}}" />
+        <view class="weui-agree__checkbox-icon">
+          <icon class="weui-agree__checkbox-icon-check" type="success_no_circle" size="9" wx:if="{{editObj.isAgree}}"></icon>
+        </view>
+        阅读并同意
+        <navigator url="" class="weui-agree__link">《相关条款》</navigator>
+      </view>
+    </label>
+  </checkbox-group>
+
+  <view class="weui-btn-area">
+    <button formType="submit" class="weui-btn" type="primary" bindtap="">确定</button>
+  </view>
+  </view>
+</form>
+
