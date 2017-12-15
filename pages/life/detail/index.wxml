@@ -25,7 +25,7 @@
           </view>
           <view class='picture_list'>
             <view wx:for="{{detail.files}}" class="picture_item ">
-              <image src="{{item}}" bindtap="imgYulan" mode="aspectFit" data-list="{{detail.files}}" data-src="{{item}}"></image>
+              <image src="{{item}}" bindtap="imgYulan" mode="aspectFill" data-list="{{detail.files}}" data-src="{{item}}"></image>
             </view>
           </view>
         </view>

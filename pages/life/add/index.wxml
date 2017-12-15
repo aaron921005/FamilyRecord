@@ -3,7 +3,7 @@
   <view class="weui-cells weui-cells_after-title">
     <view class="weui-cell">
       <view class="weui-cell__bd">
-        <textarea class="weui-textarea" bindblur='contentBlur' placeholder="请输入文本" style="height: 3.3em" value='{{addObj.content}}' maxlength="200" />
+        <textarea class="weui-textarea" bindblur='contentBlur' placeholder="请输入文本" style="height: 8em" value='{{addObj.content}}' maxlength="200" />
         <view class="weui-textarea-counter">最多200字</view>
       </view>
     </view>

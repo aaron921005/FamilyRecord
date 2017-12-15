@@ -21,7 +21,7 @@
     <view class="weui-panel__bd">
       <navigator wx:for="{{lifeList}}" wx:key="key" class="weui-media-box weui-media-box_appmsg" url="../detail/index?id={{item.id}}" hover-class="weui-cell_active">
         <view class="weui-media-box__hd weui-media-box__hd_in-appmsg" style=''>
-          <image class="weui-media-box__thumb" src="{{item.user.wxhead}}" style='border-radius:30px;' />
+          <image class="weui-media-box__thumb" src="{{item.user.wxhead}}" style='border-radius:10px;' />
           <!-- <image class="weui-media-box__thumb" wx:if="{{item.files[0]!=''}}" src="{{item.files[0]}}" />
           <image class="weui-media-box__thumb" wx:if="{{item.files[0]==''}}" src="/images/init/开心.png" /> -->
         </view>
@@ -30,15 +30,16 @@
           <view class="weui-media-box__title" style='font-size:12px;'>{{item.content}}</view>
           <view class="weui-media-box__desc">
             {{item.createtime}}
-            <label class='vi' wx:if="{{item.video}}">
-              <label>视频</label>
-            </label>
-            <label class='vi' wx:if="{{item.files[0]!=''}}">
-              <label>图片</label>
-            </label>
           </view>
         </view>
-        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        <view class="weui-cell__ft weui-cell__ft_in-access">
+          <label class='vi' wx:if="{{item.video}}">
+            <label>视频</label>
+          </label>
+          <label class='vi' wx:if="{{item.files[0]!=''}}">
+            <label>图片</label>
+          </label>
+        </view>
       </navigator>
     </view>
     <!-- <view class="weui-panel__ft">

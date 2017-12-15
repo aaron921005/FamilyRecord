@@ -12,7 +12,7 @@
       <view>{{wx.nickName}}</view>
       <view style="font-size: 13px;color: #888888;">摘要信息</view>
     </view>
-    <view class="weui-cell__ft weui-cell__ft_in-access" bindtap='mineSet'></view>
+    <navigator class="weui-cell__ft weui-cell__ft_in-access" url="../set/index" >设置</navigator>
   </view>
 
 
@@ -68,23 +68,23 @@
     <view class="weui-panel__bd">
       <navigator wx:for="{{_user.life}}" wx:key="key" url="../life/detail/index?id={{item.id}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
         <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-          <image class="weui-media-box__thumb" wx:if="{{item.files[0]!=''}}" src="{{item.files[0]}}" style='border-radius:30px;' />
-          <image class="weui-media-box__thumb" wx:if="{{item.files[0]==''}}" src="/images/init/开心.png" style='border-radius:30px;'/>
+          <image class="weui-media-box__thumb" mode="aspectFill" wx:if="{{item.files[0]!=''}}" src="{{item.files[0]}}" style='border-radius:30px;' />
+          <image class="weui-media-box__thumb" mode="aspectFill" wx:if="{{item.files[0]==''}}" src="/images/init/开心.png" style='border-radius:30px;' />
         </view>
         <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
           <view class="weui-media-box__title" style='font-size:13px;'>{{item.user.username}}</view>
           <view class="weui-media-box__title" style='font-size:12px;'>{{item.content}}</view>
           <view class="weui-media-box__desc">
             {{item.createtime}}
+          </view>
+        </view>
+        <view class="weui-cell__ft weui-cell__ft_in-access">
             <label class='vi' wx:if="{{item.video}}">
               <label>视频</label>
             </label>
             <label class='vi' wx:if="{{item.files[0]!=''}}">
               <label>图片</label>
-            </label>
-          </view>
-        </view>
-        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+            </label></view>
       </navigator>
     </view>
     <view class="weui-panel__ft">
