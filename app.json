@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/mine/set/index",
     "pages/mine/home/index",
+    "pages/mine/set/index",
     "pages/life/list/index",
     "pages/selectColor/selectColor",
     "pages/list/list",

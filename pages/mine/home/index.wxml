@@ -66,7 +66,7 @@
   </view>
   <view class="weui-panel weui-panel_access">
     <view class="weui-panel__bd">
-      <navigator wx:for="{{_user.life}}" wx:key="key" url="../life/detail/index?id={{item.id}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+      <navigator wx:for="{{_user.life}}" wx:key="key" url="../../life/detail/index?id={{item.id}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
         <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
           <image class="weui-media-box__thumb" mode="aspectFill" wx:if="{{item.files[0]!=''}}" src="{{item.files[0]}}" style='border-radius:30px;' />
           <image class="weui-media-box__thumb" mode="aspectFill" wx:if="{{item.files[0]==''}}" src="/images/init/开心.png" style='border-radius:30px;' />

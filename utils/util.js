@@ -72,11 +72,11 @@ function timecha(datestr) {
     seconds = '0' + seconds;
   ////console.log(days + "天 " + hours + "小时 " + minutes + " 分钟" + seconds + " 秒");
   if (days != 0)
-    return days + "天 " + hours + "小时 " + minutes + " 分钟" + seconds + " 秒";
+    return days + "天 " + hours + "小时 " + minutes + " 分钟";// + seconds + " 秒";
   if (hours != 0)
-    return hours + "小时 " + minutes + " 分钟" + seconds + " 秒";
+    return hours + "小时 " + minutes + " 分钟";// + seconds + " 秒";
   if (minutes != 0)
-    return minutes + " 分钟" + seconds + " 秒";
+    return minutes + " 分钟";// + seconds + " 秒";
   if (seconds != 0)
     return seconds + " 秒";
 }

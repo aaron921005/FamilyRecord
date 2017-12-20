@@ -43,6 +43,11 @@ Page({
 
     //updatecurtime
     updatecurtimeInterval: null,
+
+    indexRed: 0,
+
+    endDate:null,
+    endTime:null,
   },
   onLoad: function (params) {
     var myDate = new Date();
@@ -111,7 +116,7 @@ Page({
   getNurseList: function (e) {
     var that = this;
     wx.request({
-      url: app.globalData.url + 'index.php?c=user_babynurse&a=apibyuserid',
+      url: app.globalData.url + 'index.php?c=user_babynurse&a=apibyuseridasc',
       method: 'GET',
       data: {
         userid: that.data.userid,
@@ -123,15 +128,16 @@ Page({
       success: function (res) {
         if (res.data) {
           //处理返回的喂奶列表
-          for (var i = 0; i < res.data.length - 1; i++) {
-            res.data[i].shijiacha = util.timechatime(res.data[i].time, res.data[i + 1].time);
+          for (var i = res.data.length - 1; i > 0; i--) {
+            res.data[i].shijiacha = util.timechatime(res.data[i].time, res.data[i - 1].time);
+            res.data[i].time = res.data[i].time.replace(":00","");
             //当前毫升数矫正为最近一次喂奶毫升数
-            if (i == 0)
+            if (i == res.data.length - 1)
               that.setData({ 'number': res.data[i].number });
           }
 
           that.setData({ 'nurseList': res.data });
-          that.setData({ 'beforetimeTime': res.data[0].time });
+          that.setData({ 'beforetimeTime': res.data[res.data.length - 1].time+":00" });
           // 取消倒计时
           clearInterval(that.data.timeleijiaInterval);
           clearInterval(that.data.updatecurtimeInterval);
@@ -140,6 +146,17 @@ Page({
           // 设定倒计时
           that.setData({ 'timeleijiaInterval': setInterval(that.timeleijia, 1000) });
           that.setData({ 'updatecurtimeInterval': setInterval(that.updatecurtime, 30000) });
+
+
+          that.setData({ 'indexRed': res.data.length - 1 });
+          console.log(res.data.length);
+
+          var bottom=setInterval(function(){
+            wx.pageScrollTo({
+              scrollTop: res.data.length*32+300
+            });
+            clearInterval(bottom);
+          }, 100) 
 
         } else {
 
@@ -154,6 +171,7 @@ Page({
     var result = util.timecha(that.data.beforetimeTime);
     if (result != undefined)
       that.setData({ 'beforetime': result, });
+    // that.setData({ 'beforetime': result, 'endDate': '2017-08-08', 'endTime': '08:15', });
     else
       that.setData({ 'beforetime': '这是undefined-' + that.data.beforetimeTime, });
   },
@@ -188,7 +206,7 @@ Page({
       showCancel: false,
       success: function (res) {
         if (res.confirm) {
-          console.log('用户点击确定')
+          console.log('用户点击确定');
         }
       }
     });

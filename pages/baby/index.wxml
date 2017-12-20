@@ -4,7 +4,7 @@
   <view class="section">
     <!-- <view class="section__title">{{name}}大宝贝的喂奶日期、时间和饭量</view> -->
     <view style='margin:30rpx;'>{{name}}距<label style='color:red;'>上次喂奶</label>：{{beforetime}}</view>
-    <picker mode="date" value="{{date}}" bindchange="bindDateChange" style='border-bottom:solid 1px #e1e1e1'>
+    <picker mode="date" value="{{date}}" bindchange="bindDateChange"  style='border-bottom:solid 1px #e1e1e1'>
       <view class="picker">
         {{date}}
       </view>
@@ -26,7 +26,7 @@
 
 <view class="table">
   <view class="tr bg-w xuanfut">
-    <view class="th " style='width: 60%;'>喂奶(时间、毫升)</view>
+    <view class="th " style='width: 60%;'>喂奶</view>
     <view class="th " style='width: 40%;'>距上次相差</view>
   </view>
   <view class="weui-loadmore" wx:if="{{nurseList==null}}">
@@ -34,12 +34,12 @@
     <view class="weui-loadmore__tips">正在加载</view>
   </view>
   <block wx:for="{{nurseList}}" wx:key="{{code}}">
-    <view class="tr bg-g" wx:if="{{index % 2 == 0}}" style="{{index==0?'color:red;':''}}">
-      <view class="td" style='width: 60%;text-align:left;margin-left:20px;'>{{item.time}}、{{item.number}}</view>
+    <view class="tr bg-g" wx:if="{{index % 2 == 0}}" style="{{index==indexRed?'color:red;':''}}">
+      <view class="td" style='width: 60%;text-align:left;margin-left:20px;'>{{item.time}} {{item.number}}毫升</view>
       <view class="td" style='width: 40%;'>{{item.shijiacha}}</view>
     </view>
-    <view class="tr" wx:else>
-      <view class="td" style='width: 60%;text-align:left;margin-left:20px;'>{{item.time}}、{{item.number}}</view>
+    <view class="tr" wx:else  style="{{index==indexRed?'color:red;':''}}">
+      <view class="td" style='width: 60%;text-align:left;margin-left:20px;'>{{item.time}} {{item.number}}毫升</view>
       <view class="td" style='width: 40%;'>{{item.shijiacha}}</view>
     </view>
   </block>
