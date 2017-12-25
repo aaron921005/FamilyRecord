@@ -54,11 +54,6 @@ Page({
     this.setData({ 'name': params["name"], 'sex': params["sex"], 'userid': params["userid"], 'user_babyid': params["user_babyid"], 'date': util.dateadd0(myDate.toLocaleDateString()), 'time': util.timeadd0(myDate.getHours(), myDate.getMinutes()) });
     this.getNurseList();
   },
-  bindDateChange: function (e) {
-    this.setData({
-      date: e.detail.value
-    })
-  },
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
@@ -67,6 +62,11 @@ Page({
     wx.hideNavigationBarLoading() //完成停止加载
     wx.stopPullDownRefresh() //停止下拉刷新
 
+  },
+  bindDateChange: function (e) {
+    this.setData({
+      date: e.detail.value
+    })
   },
   bindTimeChange: function (e) {
     this.setData({

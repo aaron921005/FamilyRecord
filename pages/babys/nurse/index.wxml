@@ -1,0 +1,51 @@
+<!--pages/babys/nurse/index.wxml-->
+
+<view wx:for="{{baby}}" class="page__bd">
+  <view class="weui-form-preview">
+    <view class="weui-form-preview__hd">
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__label"></view>
+        <view class="weui-form-preview__value_in-hd">{{item.name}}</view>
+      </view>
+    </view>
+    <view class="weui-form-preview__bd">
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__label">上次信息</view>
+        <view class="weui-form-preview__value scinfo" style=''>
+          <label>{{item.lastdate}}</label>
+          <label>{{item.lasttime}}</label>
+          <label>吃了{{item.lastnumber}}毫升</label>
+        </view>
+      </view>
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__label">本次日期</view>
+        <view class="weui-form-preview__value">
+          <picker mode="date" value="{{item.currentdate}}" bindchange="bindDateChange" data-index='{{index}}'>
+            <view class="picker">
+              {{item.currentdate}}
+            </view>
+          </picker>
+        </view>
+      </view>
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__label">本次时间</view>
+        <view class="weui-form-preview__value">
+          <picker mode="time" value="{{item.currenttime}}" bindchange="bindTimeChange" data-index='{{index}}'>
+            <view class="picker">
+              {{item.currenttime}}
+            </view>
+          </picker>
+        </view>
+      </view>
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__value">
+          <slider bindchange="slider4change" min="10" max="300" step="10" show-value value='{{item.currentnumber}}' data-index='{{index}}' />
+        </view>
+      </view>
+    </view>
+    <view class="weui-form-preview__ft">
+      <navigator url="../../baby/index?user_babyid={{item.id}}&name={{item.name}}&userid={{item.userid}}&sex={{item.sex}}" class="weui-form-preview__btn weui-form-preview__btn_default" hover-class="weui-form-preview__btn_active">更多详情</navigator>
+      <navigator bindtap="openConfirm_add" data-index='{{index}}' class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">记录一下</navigator>
+    </view>
+  </view>
+</view>

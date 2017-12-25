@@ -1,0 +1,11 @@
+/* pages/babys/nurse/index.wxss */
+page{background-color: #e6e6e6}
+.weui-form-preview {
+  margin-bottom: 3px;
+}
+.scinfo{
+  color:red;
+}
+.scinfo label{
+  margin-left: 5px;
+}
