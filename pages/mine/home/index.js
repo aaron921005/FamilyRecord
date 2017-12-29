@@ -248,7 +248,7 @@ Page({
   //宝宝喂奶详情
   babynurse: function (event) {
     wx.navigateTo({
-      url: '../../../baby/index?id=' + event.currentTarget.dataset.id + '&name=' + event.currentTarget.dataset.name + '&userid=' + event.currentTarget.dataset.userid + '&sex=' + event.currentTarget.dataset.sex + '&user_babyid=' + event.currentTarget.dataset.user_babyid,
+      url: '../../baby/index?id=' + event.currentTarget.dataset.id + '&name=' + event.currentTarget.dataset.name + '&userid=' + event.currentTarget.dataset.userid + '&sex=' + event.currentTarget.dataset.sex + '&user_babyid=' + event.currentTarget.dataset.user_babyid,
     });
   },
 

@@ -1,9 +1,9 @@
 {
   "pages": [
+    "pages/life/list/index",
     "pages/babys/nurse/index",
     "pages/mine/home/index",
     "pages/mine/set/index",
-    "pages/life/list/index",
     "pages/selectColor/selectColor",
     "pages/list/list",
     "pages/baby/index",

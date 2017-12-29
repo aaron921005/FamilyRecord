@@ -29,7 +29,8 @@
           <view class="weui-media-box__title" style='font-size:13px;'>{{item.user.username}}</view>
           <view class="weui-media-box__title" style='font-size:12px;'>{{item.content}}</view>
           <view class="weui-media-box__desc">
-            {{item.createtime}}
+            <label>{{item.createtime}}</label>
+            <label class='pinglun'>评论:0</label>
           </view>
         </view>
         <view class="weui-cell__ft weui-cell__ft_in-access">

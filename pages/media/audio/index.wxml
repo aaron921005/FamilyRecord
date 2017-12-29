@@ -1,14 +1,14 @@
 <!--pages/media/audio/index.wxml-->
 
 <view class="page">
-  <view class="page__bd page__bd_spacing">
+  <view class="page__bd page__bd_spacing" style='margin-bottom:15px;'>
     <view class="weui-flex" style='margin-top:5px;'>
       <view class="weui-flex__item">
         <audio id="myAudio" class="placeholder" src="{{currentaudio.audioSrc}}" poster="{{currentaudio.audioPoster}}" name="{{currentaudio.audioName}}" author="{{currentaudio.audioAuthor}}" controls></audio>
       </view>
     </view>
   </view>
-  <view class="page__bd page__bd_spacing">
+  <view class="page__bd page__bd_spacing" style='display:none;'>
     <button type="primary" bindtap="audioPlay">播放</button>
     <button type="primary" bindtap="audioPause">暂停</button>
     <!-- <button type="primary" bindtap="audio14">设置当前播放时间为14秒</button> -->
