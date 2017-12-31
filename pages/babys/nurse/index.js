@@ -11,6 +11,8 @@ Page({
     baby: null,
     date: '2017-12-25',
     time: '08:45',
+    beforetime:'',
+    timeleijiaInterval:null,
     // numberlist: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300],
     number: 120,
   },
@@ -106,14 +108,31 @@ Page({
             res.data[i].currentdate = util.dateadd0(myDate.toLocaleDateString());
             res.data[i].currenttime = util.timeadd0(myDate.getHours(), myDate.getMinutes());
             res.data[i].currentnumber = nurse.number;
+           
           }
           that.setData({ 'baby': res.data });
+          // 取消倒计时
+          clearInterval(that.data.timeleijiaInterval);
+          that.setData({ 'timeleijiaInterval': setInterval(that.leijia, 1000) });
         } else {
 
         }
 
       }
     })
+  },
+  leijia: function () {
+    var that=this;
+    for (var i = 0; i < that.data.baby.length; i++) {
+      var nurse = that.data.baby[i].babynurse[that.data.baby[i].babynurse.length - 1];
+      var time = nurse.time;
+      var result = util.timecha(time);
+      
+      var obj = 'baby[' +i + '].beforetime';
+      this.setData({
+        [obj]: result
+      })
+    }
   },
 
   bindDateChange: function (e) {
@@ -187,7 +206,6 @@ Page({
             }
           });
         }
-
       }
     })
   },
