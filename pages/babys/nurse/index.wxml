@@ -10,11 +10,11 @@
     </view>
     <view class="weui-form-preview__bd">
       <view class="weui-form-preview__item">
-        <view class="weui-form-preview__label">上次信息</view>
+        <!-- <view class="weui-form-preview__label">上次信息</view> -->
         <view class="weui-form-preview__value scinfo" style=''>
           <label>{{item.lastdate}}</label>
           <label>{{item.lasttime}}</label>
-          <label>吃了{{item.lastnumber}}毫升</label>
+          <label>吃了{{item.lastnumber}}毫升1</label>
         </view>
       </view>
       <view class="weui-form-preview__item">

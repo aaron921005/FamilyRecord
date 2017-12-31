@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/life/list/index",
     "pages/babys/nurse/index",
+    "pages/life/list/index",
     "pages/mine/home/index",
     "pages/mine/set/index",
     "pages/selectColor/selectColor",
